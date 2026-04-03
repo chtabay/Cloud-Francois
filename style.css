@@ -252,17 +252,27 @@ ul, ol {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 1.15rem;
   color: #fff;
+  text-decoration: none;
 }
 
 .navbar__logo-icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
 }
 
-.navbar__logo strong {
-  font-weight: 800;
+.navbar__brand-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.navbar__brand-text strong {
+  font-weight: 900;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .navbar__links {
@@ -496,13 +506,34 @@ body.lang-de .navbar { top: 42px; }
   50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
 }
 
-.hero__title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+.hero__brand {
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+}
+
+.hero__brand strong {
   font-weight: 900;
-  line-height: 1.1;
-  color: #fff;
-  margin-bottom: 24px;
-  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #3b82f6 0%, #818cf8 40%, #a78bfa 70%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero__title {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+
+.hero__title .gradient-text {
+  font-weight: 700;
 }
 
 .hero__subtitle {
@@ -1068,14 +1099,28 @@ body.lang-de .navbar { top: 42px; }
 }
 
 .footer__brand {
-  max-width: 300px;
+  max-width: 320px;
 }
 
 .footer__brand .navbar__logo {
   margin-bottom: 16px;
 }
 
-.footer__brand p {
+.footer__brand-text {
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.footer__brand-text strong {
+  font-weight: 900;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer__tagline {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.45);
   line-height: 1.7;
@@ -1244,8 +1289,12 @@ body.lang-de .navbar { top: 42px; }
     min-height: auto;
   }
 
+  .hero__brand {
+    font-size: 3rem;
+  }
+
   .hero__title {
-    font-size: 2.2rem;
+    font-size: 1.1rem;
   }
 
   .services__grid {
