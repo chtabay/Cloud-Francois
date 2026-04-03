@@ -119,48 +119,38 @@ html, body {
 .slide__bg-glow--br { bottom: -200px; right: -200px; background: var(--purple); }
 .slide__bg-glow--center { top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--blue); opacity: 0.08; }
 
-/* Sora placeholder */
-.sora-placeholder {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--navy-light);
-  border: 1px dashed rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  color: var(--gray-400);
-  font-size: 0.85rem;
-  text-align: center;
-  padding: 24px;
-}
-
-.sora-placeholder::before {
-  content: '🎬';
-  display: block;
-  font-size: 2rem;
-  margin-bottom: 8px;
-}
-
-.sora-placeholder--video {
-  aspect-ratio: 16/9;
+/* Slide images */
+.slide-img {
   width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
-.sora-placeholder--hero {
+.slide-img--closing {
+  max-width: 600px;
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+.slide__bg-photo {
   position: absolute;
   inset: 0;
-  border-radius: 0;
-  border: none;
   z-index: 0;
 }
 
-.sora-placeholder--hero::after {
+.slide__bg-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide__bg-photo::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(11,20,55,0.7) 0%, rgba(11,20,55,0.95) 100%);
+  background: linear-gradient(180deg, rgba(11,20,55,0.65) 0%, rgba(11,20,55,0.92) 100%);
 }
 
 /* ===================== PROGRESS BAR ===================== */
@@ -832,11 +822,10 @@ html, body {
 
   <!-- ============================== SLIDE 1 — COVER ============================== -->
   <div class="slide active" data-slide="0">
-    <div class="sora-placeholder--hero">
-      <div class="slide__bg-grid"></div>
-      <div class="slide__bg-glow slide__bg-glow--tl"></div>
-      <div class="slide__bg-glow slide__bg-glow--br"></div>
+    <div class="slide__bg-photo">
+      <img src="../assets/Asset 1 - Cover.webp" alt="Vue aérienne de Nantes au crépuscule">
     </div>
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
     <div class="slide__content center">
       <div class="slide-label anim anim-1">Projet de cloud souverain · Nantes, 2026</div>
       <h1 class="slide-title" style="margin-bottom:16px;">Cloud <span class="gradient-text">François</span></h1>
@@ -849,9 +838,6 @@ html, body {
         <span class="pill" style="opacity:1;transform:none;">🏗️ Nantes Métropole</span>
         <span class="pill" style="opacity:1;transform:none;">🇫🇷 France 2030</span>
         <span class="pill" style="opacity:1;transform:none;">🇪🇺 PIIEC Cloud</span>
-      </div>
-      <div class="sora-placeholder anim anim-6" style="margin-top:40px; max-width:500px; min-height:60px; font-size:0.75rem;">
-        Sora : Vue aérienne de Nantes au crépuscule, île de Nantes, transition vers datacenter futuriste
       </div>
     </div>
   </div>
@@ -898,9 +884,7 @@ html, body {
         </blockquote>
       </div>
       <div>
-        <div class="sora-placeholder sora-placeholder--video anim anim-5">
-          Sora : Illustration animée — flux de données traversant l'Atlantique, cadenas américain vs bouclier européen
-        </div>
+        <img src="../assets/Asset 2 - Le Problème.png" alt="Flux de données et souveraineté" class="slide-img anim anim-5">
       </div>
     </div>
   </div>
@@ -958,9 +942,7 @@ html, body {
         </div>
       </div>
       <div>
-        <div class="sora-placeholder sora-placeholder--video anim anim-7">
-          Sora : Survol drone de l'île de Nantes, campus tech, transition vers intérieur de datacenter
-        </div>
+        <img src="../assets/Asset 3 - pourquoi Nantes.png" alt="Écosystème tech nantais" class="slide-img anim anim-7">
       </div>
     </div>
   </div>
@@ -1380,9 +1362,7 @@ html, body {
         </div>
       </div>
       <div>
-        <div class="sora-placeholder sora-placeholder--video anim anim-8">
-          Sora : Time-lapse de construction d'un datacenter, serveurs qui s'allument progressivement, lumières bleues
-        </div>
+        <img src="../assets/Asset 4 - Feuille de route.png" alt="Datacenter moderne" class="slide-img anim anim-8">
       </div>
     </div>
   </div>
@@ -1507,9 +1487,7 @@ html, body {
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <div class="anim anim-5" style="margin-top:48px;">
-        <div class="sora-placeholder" style="max-width:500px; margin:0 auto; min-height:60px; font-size:0.75rem;">
-          Sora : Panoramique de Nantes au lever du soleil, transition fondu vers logo Cloud François
-        </div>
+        <img src="../assets/Asset 5 - Closing.png" alt="Panoramique de Nantes" class="slide-img slide-img--closing">
       </div>
     </div>
   </div>
