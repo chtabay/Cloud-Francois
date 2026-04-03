@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud François — Pitch Deck</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+/* ============================================================
+   CLOUD FRANÇOIS — PITCH DECK
+   Presentation-grade slide system
+   ============================================================ */
+
+:root {
+  --navy: #0B1437;
+  --navy-light: #111B47;
+  --navy-surface: #162052;
+  --blue: #2563EB;
+  --blue-light: #3B82F6;
+  --blue-glow: rgba(37, 99, 235, 0.25);
+  --purple: #7C3AED;
+  --purple-light: #8B5CF6;
+  --cyan: #06B6D4;
+  --green: #22C55E;
+  --amber: #F59E0B;
+  --red: #EF4444;
+  --white: #FFFFFF;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-300: #CBD5E1;
+  --gray-400: #94A3B8;
+  --gray-500: #64748B;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --gradient: linear-gradient(135deg, var(--blue), var(--purple));
+  --gradient-warm: linear-gradient(135deg, var(--blue), var(--cyan));
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font);
+  background: var(--navy);
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===================== SLIDE ENGINE ===================== */
+
+.deck {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 80px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(40px);
+  overflow: hidden;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.slide.prev {
+  transform: translateX(-40px);
+}
+
+.slide__content {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Backgrounds */
+.slide__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.slide__bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.slide__bg-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(150px);
+  opacity: 0.15;
+}
+
+.slide__bg-glow--tl { top: -200px; left: -200px; background: var(--blue); }
+.slide__bg-glow--br { bottom: -200px; right: -200px; background: var(--purple); }
+.slide__bg-glow--center { top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--blue); opacity: 0.08; }
+
+/* Sora placeholder */
+.sora-placeholder {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--navy-light);
+  border: 1px dashed rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--gray-400);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 24px;
+}
+
+.sora-placeholder::before {
+  content: '🎬';
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.sora-placeholder--video {
+  aspect-ratio: 16/9;
+  width: 100%;
+}
+
+.sora-placeholder--hero {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  border: none;
+  z-index: 0;
+}
+
+.sora-placeholder--hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11,20,55,0.7) 0%, rgba(11,20,55,0.95) 100%);
+}
+
+/* ===================== PROGRESS BAR ===================== */
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--gradient);
+  z-index: 100;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 12px var(--blue-glow);
+}
+
+/* ===================== CONTROLS ===================== */
+
+.controls {
+  position: fixed;
+  bottom: 32px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 100;
+}
+
+.controls__counter {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--gray-400);
+  margin-right: 8px;
+}
+
+.controls__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+
+.controls__btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.controls__btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Logo watermark */
+.watermark {
+  position: fixed;
+  bottom: 36px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.3);
+  z-index: 100;
+}
+
+.watermark strong { font-weight: 700; color: rgba(255,255,255,0.5); }
+
+/* ===================== TYPOGRAPHY ===================== */
+
+.slide-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--blue-light);
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.slide-title {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.slide-subtitle {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.slide-text {
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--gray-300);
+  max-width: 700px;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animate-in when slide is active */
+.active .slide-label,
+.active .slide-title,
+.active .slide-subtitle,
+.active .slide-text,
+.active .anim {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1),
+              transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+.active .slide-label { transition-delay: 0.1s; }
+.active .slide-title { transition-delay: 0.2s; }
+.active .slide-subtitle { transition-delay: 0.3s; }
+.active .slide-text { transition-delay: 0.35s; }
+.active .anim { opacity: 0; transform: translateY(16px); }
+.active .anim { opacity: 1; transform: translateY(0); }
+.active .anim-1 { transition-delay: 0.15s; }
+.active .anim-2 { transition-delay: 0.25s; }
+.active .anim-3 { transition-delay: 0.35s; }
+.active .anim-4 { transition-delay: 0.45s; }
+.active .anim-5 { transition-delay: 0.55s; }
+.active .anim-6 { transition-delay: 0.65s; }
+.active .anim-7 { transition-delay: 0.75s; }
+.active .anim-8 { transition-delay: 0.85s; }
+
+/* ===================== LAYOUT HELPERS ===================== */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.split--40-60 { grid-template-columns: 2fr 3fr; }
+.split--60-40 { grid-template-columns: 3fr 2fr; }
+
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.center { text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+/* ===================== COMPONENTS ===================== */
+
+/* Stat boxes */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.stat-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.active .stat-box { opacity: 1; transform: translateY(0); }
+
+.stat-box__number {
+  display: block;
+  font-size: 2.4rem;
+  font-weight: 900;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+.stat-box__label {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  line-height: 1.4;
+}
+
+/* Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 28px;
+  transition: all 0.3s;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.active .card { opacity: 1; transform: translateY(0); }
+
+.card:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(37,99,235,0.3);
+  transform: translateY(-2px);
+}
+
+.card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+
+.card__icon--blue { background: rgba(37,99,235,0.15); }
+.card__icon--purple { background: rgba(124,58,237,0.15); }
+.card__icon--cyan { background: rgba(6,182,212,0.15); }
+.card__icon--green { background: rgba(34,197,94,0.15); }
+.card__icon--amber { background: rgba(245,158,11,0.15); }
+.card__icon--red { background: rgba(239,68,68,0.15); }
+
+.card h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 0.85rem;
+  color: var(--gray-400);
+  line-height: 1.6;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+  margin-top: 32px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--blue), var(--purple));
+  border-radius: 2px;
+}
+
+.timeline__item {
+  position: relative;
+  padding-bottom: 32px;
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.active .timeline__item { opacity: 1; transform: translateX(0); }
+
+.timeline__dot {
+  position: absolute;
+  left: -33px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 3px solid var(--navy);
+  box-shadow: 0 0 0 2px var(--blue);
+}
+
+.timeline__dot--done { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+.timeline__dot--active { background: var(--amber); box-shadow: 0 0 0 2px var(--amber); animation: pulse-timeline 2s infinite; }
+.timeline__dot--future { background: var(--gray-500); box-shadow: 0 0 0 2px var(--gray-500); }
+
+@keyframes pulse-timeline {
+  0%, 100% { box-shadow: 0 0 0 2px var(--amber), 0 0 0 4px rgba(245,158,11,0.3); }
+  50% { box-shadow: 0 0 0 2px var(--amber), 0 0 0 8px rgba(245,158,11,0); }
+}
+
+.timeline__date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--blue-light);
+  margin-bottom: 4px;
+}
+
+.timeline__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.timeline__desc {
+  font-size: 0.85rem;
+  color: var(--gray-400);
+  line-height: 1.5;
+}
+
+/* Consortium wheel */
+.consortium {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.consortium__member {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 20px 24px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.5s;
+}
+
+.active .consortium__member { opacity: 1; transform: translateY(0); }
+
+.consortium__member:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(37,99,235,0.3);
+}
+
+.consortium__avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.consortium__info h4 { font-size: 0.95rem; font-weight: 700; }
+.consortium__info p { font-size: 0.8rem; color: var(--gray-400); margin-top: 2px; }
+.consortium__info .tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-top: 6px;
+}
+
+.tag--infra { background: rgba(37,99,235,0.15); color: var(--blue-light); }
+.tag--cyber { background: rgba(124,58,237,0.15); color: var(--purple-light); }
+.tag--finance { background: rgba(34,197,94,0.15); color: var(--green); }
+.tag--services { background: rgba(6,182,212,0.15); color: var(--cyan); }
+.tag--public { background: rgba(245,158,11,0.15); color: var(--amber); }
+
+/* Bar chart */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  height: 260px;
+  margin-top: 32px;
+  padding: 0 20px;
+}
+
+.bar-chart__col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-chart__bar {
+  width: 100%;
+  max-width: 60px;
+  border-radius: 8px 8px 0 0;
+  background: var(--gradient);
+  min-height: 4px;
+  transition: height 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.bar-chart__value {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.bar-chart__label {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  text-align: center;
+}
+
+/* Donut */
+.donut-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 28px;
+}
+
+.donut {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+.donut circle {
+  fill: none;
+  stroke-width: 28;
+  stroke-linecap: round;
+}
+
+.donut__track { stroke: rgba(255,255,255,0.06); }
+
+.donut__segment {
+  transition: stroke-dasharray 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.donut-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.donut-legend__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Quote */
+.quote {
+  font-size: 1.4rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--gray-200);
+  border-left: 3px solid var(--blue);
+  padding-left: 28px;
+  margin: 28px 0;
+  max-width: 600px;
+}
+
+.quote-author {
+  font-size: 0.9rem;
+  font-style: normal;
+  color: var(--gray-400);
+  margin-top: 12px;
+}
+
+/* Big number */
+.big-number {
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* Pill list */
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.4s;
+}
+
+.active .pill { opacity: 1; transform: scale(1); }
+
+/* Architecture diagram */
+.arch-diagram {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.arch-layer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px 24px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.5s;
+}
+
+.active .arch-layer { opacity: 1; transform: translateX(0); }
+
+.arch-layer__label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue-light);
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.arch-layer__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.arch-layer__item {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(37,99,235,0.1);
+  border: 1px solid rgba(37,99,235,0.2);
+  color: var(--blue-light);
+}
+
+.arch-layer--purple .arch-layer__label { color: var(--purple-light); }
+.arch-layer--purple .arch-layer__item { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.2); color: var(--purple-light); }
+
+.arch-layer--cyan .arch-layer__label { color: var(--cyan); }
+.arch-layer--cyan .arch-layer__item { background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.2); color: var(--cyan); }
+
+.arch-layer--green .arch-layer__label { color: var(--green); }
+.arch-layer--green .arch-layer__item { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.2); color: var(--green); }
+
+/* CTA slide */
+.cta-slide {
+  text-align: center;
+}
+
+.cta-slide .slide-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 40px;
+  border-radius: 14px;
+  font-family: var(--font);
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  margin-top: 32px;
+}
+
+.cta-btn--primary {
+  background: var(--gradient);
+  color: white;
+  box-shadow: 0 4px 24px var(--blue-glow);
+}
+
+.cta-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px var(--blue-glow);
+}
+
+/* Fullscreen hint */
+.fullscreen-hint {
+  position: fixed;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--gray-500);
+  z-index: 100;
+  font-family: var(--mono);
+  opacity: 0.6;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 1024px) {
+  .slide { padding: 40px; }
+  .split { grid-template-columns: 1fr; gap: 40px; }
+  .split--40-60, .split--60-40 { grid-template-columns: 1fr; }
+  .consortium { grid-template-columns: 1fr; }
+}
+  </style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="watermark">
+  <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="url(#wm)"/><path d="M12 26V14l8 6-8 6z" fill="#fff" opacity="0.9"/><path d="M18 26V14l8 6-8 6z" fill="#fff" opacity="0.6"/><defs><linearGradient id="wm" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#2563EB"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs></svg>
+  Cloud <strong>François</strong>
+</div>
+
+<div class="fullscreen-hint" id="hint">Appuyez sur <strong>F</strong> pour le plein écran · ← → ou Espace pour naviguer</div>
+
+<div class="controls">
+  <span class="controls__counter" id="counter">01 / 17</span>
+  <button class="controls__btn" id="btn-prev" aria-label="Précédent">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="controls__btn" id="btn-next" aria-label="Suivant">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- ============================== SLIDE 1 — COVER ============================== -->
+  <div class="slide active" data-slide="0">
+    <div class="sora-placeholder--hero">
+      <div class="slide__bg-grid"></div>
+      <div class="slide__bg-glow slide__bg-glow--tl"></div>
+      <div class="slide__bg-glow slide__bg-glow--br"></div>
+    </div>
+    <div class="slide__content center">
+      <div class="slide-label anim anim-1">Projet de cloud souverain · Nantes, 2026</div>
+      <h1 class="slide-title" style="margin-bottom:16px;">Cloud <span class="gradient-text">François</span></h1>
+      <p class="slide-subtitle" style="font-weight:400; color: var(--gray-300);">Le Cloud qui parle français.</p>
+      <p class="slide-text" style="text-align:center; margin-top:12px; max-width:560px;">
+        Proposition d'infrastructure cloud souveraine, <br>portée depuis Nantes — Pays de la Loire.
+      </p>
+      <div class="anim anim-5" style="margin-top:48px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <span class="pill" style="opacity:1;transform:none;">🏛️ Région Pays de la Loire</span>
+        <span class="pill" style="opacity:1;transform:none;">🏗️ Nantes Métropole</span>
+        <span class="pill" style="opacity:1;transform:none;">🇫🇷 France 2030</span>
+        <span class="pill" style="opacity:1;transform:none;">🇪🇺 PIIEC Cloud</span>
+      </div>
+      <div class="sora-placeholder anim anim-6" style="margin-top:40px; max-width:500px; min-height:60px; font-size:0.75rem;">
+        Sora : Vue aérienne de Nantes au crépuscule, île de Nantes, transition vers datacenter futuriste
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 2 — LE CONSTAT ============================== -->
+  <div class="slide" data-slide="1">
+    <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--center"></div></div>
+    <div class="slide__content">
+      <div class="slide-label">Le Constat</div>
+      <h2 class="slide-title">La France a perdu le contrôle <br>de ses données.</h2>
+      <p class="slide-text">70% des données des entreprises et administrations françaises sont hébergées chez trois acteurs américains — soumises au Cloud Act et à FISA 702.</p>
+      <div class="stat-row">
+        <div class="stat-box anim anim-3">
+          <span class="stat-box__number">70%</span>
+          <span class="stat-box__label">du marché cloud FR détenu par AWS, Azure, GCP</span>
+        </div>
+        <div class="stat-box anim anim-4">
+          <span class="stat-box__number">0</span>
+          <span class="stat-box__label">acteur français dans le top 10 mondial</span>
+        </div>
+        <div class="stat-box anim anim-5">
+          <span class="stat-box__number">27 Md€</span>
+          <span class="stat-box__label">marché cloud FR en 2025 — en croissance de 20%/an</span>
+        </div>
+        <div class="stat-box anim anim-6">
+          <span class="stat-box__number">Cloud Act</span>
+          <span class="stat-box__label">permet au DoJ US d'accéder aux données sans mandat FR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 3 — LE PROBLÈME ============================== -->
+  <div class="slide" data-slide="2">
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
+    <div class="slide__content split">
+      <div>
+        <div class="slide-label">Le Problème</div>
+        <h2 class="slide-subtitle">Les « clouds de confiance » actuels ne sont pas souverains.</h2>
+        <p class="slide-text">Les initiatives Bleu (Orange+Capgemini/Azure) et S3NS (Thales/Google) reposent sur des technologies sous licence américaine. Le code, les mises à jour, et la propriété intellectuelle restent hors de contrôle français.</p>
+        <blockquote class="quote anim anim-4">
+          "Un cloud opéré sous licence d'un hyperscaler américain ne protège pas de la portée extraterritoriale du droit US."
+          <div class="quote-author">— ANSSI, Avis sur les offres cloud de confiance, 2024</div>
+        </blockquote>
+      </div>
+      <div>
+        <div class="sora-placeholder sora-placeholder--video anim anim-5">
+          Sora : Illustration animée — flux de données traversant l'Atlantique, cadenas américain vs bouclier européen
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 4 — LA VISION ============================== -->
+  <div class="slide" data-slide="3">
+    <div class="slide__bg"><div class="slide__bg-glow slide__bg-glow--tl"></div><div class="slide__bg-glow slide__bg-glow--br"></div><div class="slide__bg-grid"></div></div>
+    <div class="slide__content center">
+      <div class="slide-label">La Vision</div>
+      <h2 class="slide-title">Un cloud <span class="gradient-text">100% français</span>,<br>de la puce au contrat.</h2>
+      <p class="slide-text" style="text-align:center; max-width:640px;">
+        Cloud François propose une infrastructure cloud complète — calcul, stockage, réseau, IA —
+        dont chaque maillon de la chaîne est français : capitaux, opérateurs, technologie, hébergement, et droit applicable.
+      </p>
+      <div class="pill-list anim anim-4" style="justify-content:center; margin-top:28px;">
+        <span class="pill anim anim-4">🏛️ Capitaux français</span>
+        <span class="pill anim anim-5">🔧 Techno open source</span>
+        <span class="pill anim anim-5">🇫🇷 Hébergement FR</span>
+        <span class="pill anim anim-6">⚖️ Droit français</span>
+        <span class="pill anim anim-6">🛡️ SecNumCloud</span>
+        <span class="pill anim anim-7">🌱 100% renouvelable</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 5 — POURQUOI NANTES ============================== -->
+  <div class="slide" data-slide="4">
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
+    <div class="slide__content split--60-40">
+      <div>
+        <div class="slide-label">Pourquoi Nantes</div>
+        <h2 class="slide-subtitle">L'écosystème idéal pour un cloud souverain.</h2>
+        <p class="slide-text">Nantes réunit un tissu tech dynamique, une proximité avec le hub cyber de Rennes, un accès aux câbles sous-marins atlantiques, et un soutien politique régional fort.</p>
+        <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="card anim anim-3">
+            <div class="card__icon card__icon--blue">🏢</div>
+            <h4>Clever Cloud</h4>
+            <p>PaaS souverain basé à Nantes. Preuve qu'un acteur cloud de référence peut émerger ici.</p>
+          </div>
+          <div class="card anim anim-4">
+            <div class="card__icon card__icon--purple">🛡️</div>
+            <h4>Pôle Cyber Rennes</h4>
+            <p>DGA-MI, Pôle d'Excellence Cyber à 1h. Vivier de compétences cybersécurité unique.</p>
+          </div>
+          <div class="card anim anim-5">
+            <div class="card__icon card__icon--cyan">🌊</div>
+            <h4>Câbles sous-marins</h4>
+            <p>Accès aux landing points atlantiques. Connectivité internationale directe.</p>
+          </div>
+          <div class="card anim anim-6">
+            <div class="card__icon card__icon--green">🎓</div>
+            <h4>Talent pool</h4>
+            <p>Centrale Nantes, Polytech, IMT Atlantique, Epitech. 8 000 diplômés tech/an.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sora-placeholder sora-placeholder--video anim anim-7">
+          Sora : Survol drone de l'île de Nantes, campus tech, transition vers intérieur de datacenter
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 6 — SOUTIENS POLITIQUES ============================== -->
+  <div class="slide" data-slide="5">
+    <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--center"></div></div>
+    <div class="slide__content">
+      <div class="slide-label">Soutiens institutionnels</div>
+      <h2 class="slide-subtitle">Un projet porté par le territoire.</h2>
+      <p class="slide-text">Cloud François s'inscrit dans la stratégie numérique régionale et bénéficie du soutien des acteurs publics locaux et nationaux.</p>
+      <div class="consortium" style="margin-top:28px;">
+        <div class="consortium__member anim anim-3">
+          <div class="consortium__avatar" style="background:rgba(37,99,235,0.15);">🏛️</div>
+          <div class="consortium__info">
+            <h4>Région Pays de la Loire</h4>
+            <p>Stratégie « Ambitions Numériques 2028 » — soutien à l'émergence de champions tech régionaux.</p>
+            <span class="tag tag--public">Collectivité</span>
+          </div>
+        </div>
+        <div class="consortium__member anim anim-4">
+          <div class="consortium__avatar" style="background:rgba(34,197,94,0.15);">🏗️</div>
+          <div class="consortium__info">
+            <h4>Nantes Métropole</h4>
+            <p>Quartier de la Création, Nantes Tech. Ambition de hub numérique de l'Ouest.</p>
+            <span class="tag tag--public">Collectivité</span>
+          </div>
+        </div>
+        <div class="consortium__member anim anim-5">
+          <div class="consortium__avatar" style="background:rgba(245,158,11,0.15);">🏦</div>
+          <div class="consortium__info">
+            <h4>Bpifrance</h4>
+            <p>Financement de l'innovation deep tech. Enveloppe France 2030 « Cloud souverain ».</p>
+            <span class="tag tag--finance">Investissement public</span>
+          </div>
+        </div>
+        <div class="consortium__member anim anim-6">
+          <div class="consortium__avatar" style="background:rgba(124,58,237,0.15);">🏦</div>
+          <div class="consortium__info">
+            <h4>Banque des Territoires (CDC)</h4>
+            <p>Capital patient, investisseur de référence des projets d'infrastructure numérique souveraine.</p>
+            <span class="tag tag--finance">Investissement public</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 7 — LE CONSORTIUM ============================== -->
+  <div class="slide" data-slide="6">
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
+    <div class="slide__content">
+      <div class="slide-label">Le Consortium</div>
+      <h2 class="slide-subtitle">Quatre piliers, un cloud.</h2>
+      <p class="slide-text">Chaque membre apporte une compétence critique. Aucune dépendance à une entité extra-européenne.</p>
+      <div class="consortium" style="margin-top:28px;">
+        <div class="consortium__member anim anim-3">
+          <div class="consortium__avatar" style="background:rgba(37,99,235,0.15);">📡</div>
+          <div class="consortium__info">
+            <h4>Opérateur Télécom</h4>
+            <p>Datacenters, réseau fibre & peering, infrastructure physique. Candidats : Bouygues Telecom, Iliad.</p>
+            <span class="tag tag--infra">Infrastructure</span>
+          </div>
+        </div>
+        <div class="consortium__member anim anim-4">
+          <div class="consortium__avatar" style="background:rgba(124,58,237,0.15);">🛡️</div>
+          <div class="consortium__info">
+            <h4>Industriel Cyber/Défense</h4>
+            <p>Expertise cybersécurité, qualification SecNumCloud, accès marchés Défense & OIV. Candidats : Thales, Atos/Eviden.</p>
+            <span class="tag tag--cyber">Cybersécurité</span>
+          </div>
+        </div>
+        <div class="consortium__member anim anim-5">
+          <div class="consortium__avatar" style="background:rgba(34,197,94,0.15);">🏦</div>
+          <div class="consortium__info">
+            <h4>Investisseur Public</h4>
+            <p>Capital patient, signal de confiance pour le marché. Bpifrance + Banque des Territoires.</p>
+            <span class="tag tag--finance">Capital</span>
+          </div>
+        </div>
+        <div class="consortium__member anim anim-6">
+          <div class="consortium__avatar" style="background:rgba(6,182,212,0.15);">💻</div>
+          <div class="consortium__info">
+            <h4>ESN / Intégrateur</h4>
+            <p>Go-to-market, migration, accompagnement grands comptes & administrations. Candidats : Sopra Steria, Capgemini.</p>
+            <span class="tag tag--services">Services</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 8 — ARCHITECTURE ============================== -->
+  <div class="slide" data-slide="7">
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
+    <div class="slide__content">
+      <div class="slide-label">Architecture</div>
+      <h2 class="slide-subtitle">Une stack 100% open source, qualifiable SecNumCloud.</h2>
+      <div class="arch-diagram">
+        <div class="arch-layer arch-layer--green anim anim-2">
+          <span class="arch-layer__label">Services</span>
+          <div class="arch-layer__items">
+            <span class="arch-layer__item">Compute (KVM)</span>
+            <span class="arch-layer__item">Object Storage (Ceph)</span>
+            <span class="arch-layer__item">Kubernetes (K8s)</span>
+            <span class="arch-layer__item">DBaaS</span>
+            <span class="arch-layer__item">Serverless</span>
+            <span class="arch-layer__item">AI / GPU</span>
+          </div>
+        </div>
+        <div class="arch-layer anim anim-3">
+          <span class="arch-layer__label">Plateforme</span>
+          <div class="arch-layer__items">
+            <span class="arch-layer__item">OpenStack</span>
+            <span class="arch-layer__item">Terraform Provider</span>
+            <span class="arch-layer__item">S3 API</span>
+            <span class="arch-layer__item">Console Web</span>
+            <span class="arch-layer__item">CLI</span>
+            <span class="arch-layer__item">IAM</span>
+          </div>
+        </div>
+        <div class="arch-layer arch-layer--purple anim anim-4">
+          <span class="arch-layer__label">Sécurité</span>
+          <div class="arch-layer__items">
+            <span class="arch-layer__item">HSM (Atos)</span>
+            <span class="arch-layer__item">KMS souverain</span>
+            <span class="arch-layer__item">Zero Trust</span>
+            <span class="arch-layer__item">SIEM/SOC 24/7</span>
+            <span class="arch-layer__item">Audit ANSSI</span>
+          </div>
+        </div>
+        <div class="arch-layer arch-layer--cyan anim anim-5">
+          <span class="arch-layer__label">Réseau</span>
+          <div class="arch-layer__items">
+            <span class="arch-layer__item">SDN (OVN)</span>
+            <span class="arch-layer__item">25-100 Gbps</span>
+            <span class="arch-layer__item">vRack / VPC</span>
+            <span class="arch-layer__item">Load Balancers</span>
+            <span class="arch-layer__item">DDoS mitigation</span>
+          </div>
+        </div>
+        <div class="arch-layer anim anim-6" style="background:rgba(255,255,255,0.02);">
+          <span class="arch-layer__label" style="color:var(--gray-400);">Physique</span>
+          <div class="arch-layer__items">
+            <span class="arch-layer__item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--gray-300);">DC Nantes (Tier III)</span>
+            <span class="arch-layer__item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--gray-300);">DC Rennes (Tier III)</span>
+            <span class="arch-layer__item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--gray-300);">DC Paris (Tier IV)</span>
+            <span class="arch-layer__item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);color:var(--gray-300);">100% énergie verte</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 9 — LE MARCHÉ ============================== -->
+  <div class="slide" data-slide="8">
+    <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--br"></div></div>
+    <div class="slide__content split">
+      <div>
+        <div class="slide-label">Le Marché</div>
+        <h2 class="slide-subtitle">Un marché de 27 Md€ en France, en accélération.</h2>
+        <p class="slide-text">La doctrine « Cloud au centre » impose le cloud souverain pour toutes les données sensibles de l'État. Le marché adressable souverain atteint 5 Md€ dès 2027.</p>
+        <div class="stat-row" style="grid-template-columns:1fr 1fr;">
+          <div class="stat-box anim anim-4">
+            <span class="stat-box__number">27 Md€</span>
+            <span class="stat-box__label">Marché cloud total France 2025</span>
+          </div>
+          <div class="stat-box anim anim-5">
+            <span class="stat-box__number">+20%</span>
+            <span class="stat-box__label">Croissance annuelle</span>
+          </div>
+          <div class="stat-box anim anim-6">
+            <span class="stat-box__number">5 Md€</span>
+            <span class="stat-box__label">SAM souverain 2027 (SecNumCloud)</span>
+          </div>
+          <div class="stat-box anim anim-7">
+            <span class="stat-box__number">800 M€</span>
+            <span class="stat-box__label">SOM cible à 5 ans</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="bar-chart anim anim-4" id="market-chart">
+          <div class="bar-chart__col">
+            <div class="bar-chart__value">8</div>
+            <div class="bar-chart__bar" data-height="40" style="height:4px;"></div>
+            <div class="bar-chart__label">2022</div>
+          </div>
+          <div class="bar-chart__col">
+            <div class="bar-chart__value">14</div>
+            <div class="bar-chart__bar" data-height="70" style="height:4px;"></div>
+            <div class="bar-chart__label">2023</div>
+          </div>
+          <div class="bar-chart__col">
+            <div class="bar-chart__value">19</div>
+            <div class="bar-chart__bar" data-height="95" style="height:4px;"></div>
+            <div class="bar-chart__label">2024</div>
+          </div>
+          <div class="bar-chart__col">
+            <div class="bar-chart__value">27</div>
+            <div class="bar-chart__bar" data-height="135" style="height:4px;"></div>
+            <div class="bar-chart__label">2025</div>
+          </div>
+          <div class="bar-chart__col">
+            <div class="bar-chart__value">38</div>
+            <div class="bar-chart__bar" data-height="190" style="height:4px;"></div>
+            <div class="bar-chart__label">2026e</div>
+          </div>
+          <div class="bar-chart__col">
+            <div class="bar-chart__value">52</div>
+            <div class="bar-chart__bar" data-height="240" style="height:4px;"></div>
+            <div class="bar-chart__label">2027e</div>
+          </div>
+        </div>
+        <p class="anim anim-6" style="font-size:0.75rem; color:var(--gray-500); text-align:center; margin-top:12px;">Marché cloud France (Md€) · Source : Markess, IDC, estimations CF</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 10 — SEGMENTS ============================== -->
+  <div class="slide" data-slide="9">
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
+    <div class="slide__content split">
+      <div>
+        <div class="slide-label">Segments cibles</div>
+        <h2 class="slide-subtitle">Trois marchés, une plateforme.</h2>
+        <p class="slide-text">Cloud François adresse séquentiellement les segments les plus demandeurs de souveraineté, puis élargit vers les PME/ETI.</p>
+      </div>
+      <div class="stack" style="gap:16px;">
+        <div class="card anim anim-3">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div class="card__icon card__icon--amber" style="margin:0;">🏛️</div>
+            <h4 style="margin:0;">Phase 1 — Secteur public</h4>
+          </div>
+          <p>Administrations centrales, collectivités, opérateurs d'importance vitale. Doctrine « Cloud au centre ». Marché accessible via UGAP et marchés interministériels.</p>
+        </div>
+        <div class="card anim anim-5">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div class="card__icon card__icon--purple" style="margin:0;">🏥</div>
+            <h4 style="margin:0;">Phase 2 — Santé & Finance</h4>
+          </div>
+          <p>Hôpitaux (HDS), ARS, banques et assurances. Secteurs fortement régulés, obligation d'hébergement qualifié.</p>
+        </div>
+        <div class="card anim anim-7">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div class="card__icon card__icon--blue" style="margin:0;">🚀</div>
+            <h4 style="margin:0;">Phase 3 — PME, ETI & Startups</h4>
+          </div>
+          <p>Démocratisation du cloud souverain. Offres self-service, prix compétitifs, DX premium. Le vrai différenciateur de Cloud François.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 11 — MODÈLE ÉCONOMIQUE ============================== -->
+  <div class="slide" data-slide="10">
+    <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--center"></div></div>
+    <div class="slide__content split">
+      <div>
+        <div class="slide-label">Modèle économique</div>
+        <h2 class="slide-subtitle">Usage + engagement, sans egress fees abusifs.</h2>
+        <p class="slide-text">Un modèle transparent qui rompt avec les pratiques des hyperscalers. Pas de vendor lock-in, pas de frais cachés.</p>
+        <div class="stack anim anim-4" style="gap:20px; margin-top:28px;">
+          <div style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="font-size:1.3rem;">💰</span>
+            <div>
+              <strong style="display:block;">Pay-as-you-go</strong>
+              <span style="font-size:0.85rem;color:var(--gray-400);">Facturation à la minute pour le compute, au Go pour le stockage. Pas de minimum.</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="font-size:1.3rem;">📋</span>
+            <div>
+              <strong style="display:block;">Contrats d'engagement</strong>
+              <span style="font-size:0.85rem;color:var(--gray-400);">Remises de 20-40% sur engagement 1-3 ans. Cible grands comptes et administrations.</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="font-size:1.3rem;">🔄</span>
+            <div>
+              <strong style="display:block;">Egress gratuit jusqu'à 1 To/mois</strong>
+              <span style="font-size:0.85rem;color:var(--gray-400);">Au-delà : 0,01€/Go vs 0,09€/Go chez AWS. Signal fort anti vendor lock-in.</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="font-size:1.3rem;">🤝</span>
+            <div>
+              <strong style="display:block;">Services managés premium</strong>
+              <span style="font-size:0.85rem;color:var(--gray-400);">SRE dédié, accompagnement migration, formation. Marge haute, forte rétention.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h4 class="anim anim-4" style="font-size:0.85rem; color:var(--gray-400); margin-bottom:16px; text-align:center;">Répartition du CA cible — Année 5</h4>
+        <div class="donut-wrapper anim anim-5" style="flex-direction:column; align-items:center;">
+          <svg class="donut" viewBox="0 0 200 200" id="donut-chart">
+            <circle class="donut__track" cx="100" cy="100" r="70"/>
+            <circle class="donut__segment" cx="100" cy="100" r="70" stroke="var(--blue)" stroke-dasharray="0 440" data-target="176" transform="rotate(-90 100 100)"/>
+            <circle class="donut__segment" cx="100" cy="100" r="70" stroke="var(--purple)" stroke-dasharray="0 440" data-target="110" data-offset="176" transform="rotate(-90 100 100)"/>
+            <circle class="donut__segment" cx="100" cy="100" r="70" stroke="var(--cyan)" stroke-dasharray="0 440" data-target="88" data-offset="286" transform="rotate(-90 100 100)"/>
+            <circle class="donut__segment" cx="100" cy="100" r="70" stroke="var(--amber)" stroke-dasharray="0 440" data-target="66" data-offset="374" transform="rotate(-90 100 100)"/>
+          </svg>
+          <div class="donut-legend" style="margin-top:20px; flex-direction:row; flex-wrap:wrap; gap:16px; justify-content:center;">
+            <div class="donut-legend__item"><div class="donut-legend__dot" style="background:var(--blue)"></div>Compute 40%</div>
+            <div class="donut-legend__item"><div class="donut-legend__dot" style="background:var(--purple)"></div>Stockage 25%</div>
+            <div class="donut-legend__item"><div class="donut-legend__dot" style="background:var(--cyan)"></div>Managé 20%</div>
+            <div class="donut-legend__item"><div class="donut-legend__dot" style="background:var(--amber)"></div>Services 15%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 12 — PROJECTIONS ============================== -->
+  <div class="slide" data-slide="11">
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
+    <div class="slide__content">
+      <div class="slide-label">Projections financières</div>
+      <h2 class="slide-subtitle">Chemin vers la rentabilité en 4 ans.</h2>
+      <div style="overflow-x:auto;margin-top:28px;">
+        <table class="anim anim-3" style="width:100%;border-collapse:separate;border-spacing:0;font-size:0.9rem;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.1);color:var(--gray-400);font-weight:600;font-size:0.8rem;">En M€</th>
+              <th style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.1);color:var(--gray-400);font-weight:600;font-size:0.8rem;">An 1</th>
+              <th style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.1);color:var(--gray-400);font-weight:600;font-size:0.8rem;">An 2</th>
+              <th style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.1);color:var(--gray-400);font-weight:600;font-size:0.8rem;">An 3</th>
+              <th style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.1);color:var(--blue-light);font-weight:700;font-size:0.8rem;">An 4</th>
+              <th style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.1);color:var(--blue-light);font-weight:700;font-size:0.8rem;">An 5</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align:left;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);font-weight:600;">Chiffre d'affaires</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;">8</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;">35</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;">120</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--blue-light);font-weight:700;">340</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--blue-light);font-weight:700;">800</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);font-weight:600;">EBITDA</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--red);">-45</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--red);">-30</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--red);">-5</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--green);font-weight:700;">+45</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--green);font-weight:700;">+160</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);font-weight:600;">Clients</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;">200</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;">2 000</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;">10 000</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--blue-light);font-weight:700;">25 000</td>
+              <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;color:var(--blue-light);font-weight:700;">50 000</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;padding:14px 20px;font-weight:600;">Effectifs</td>
+              <td style="padding:14px 20px;text-align:center;">80</td>
+              <td style="padding:14px 20px;text-align:center;">200</td>
+              <td style="padding:14px 20px;text-align:center;">450</td>
+              <td style="padding:14px 20px;text-align:center;color:var(--blue-light);font-weight:700;">700</td>
+              <td style="padding:14px 20px;text-align:center;color:var(--blue-light);font-weight:700;">1 000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="anim anim-5" style="font-size:0.8rem; color:var(--gray-500); margin-top:16px;">Hypothèses : ticket moyen secteur public 150 K€/an, PME 5 K€/an. Marge brute compute 55%, stockage 65%. CAPEX datacenter amorti sur 7 ans.</p>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 13 — CERTIFICATIONS ============================== -->
+  <div class="slide" data-slide="12">
+    <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--tl"></div></div>
+    <div class="slide__content split--60-40">
+      <div>
+        <div class="slide-label">Feuille de route</div>
+        <h2 class="slide-subtitle">De la fondation au SecNumCloud en 30 mois.</h2>
+        <div class="timeline">
+          <div class="timeline__item anim anim-2">
+            <div class="timeline__dot timeline__dot--done"></div>
+            <div class="timeline__date">T1 2026</div>
+            <div class="timeline__title">Création de la SAS & tour d'amorçage</div>
+            <div class="timeline__desc">Constitution du consortium, levée Seed 15 M€ (Bpifrance, CDC, BA).</div>
+          </div>
+          <div class="timeline__item anim anim-3">
+            <div class="timeline__dot timeline__dot--active"></div>
+            <div class="timeline__date">T2–T4 2026</div>
+            <div class="timeline__title">MVP & premier datacenter Nantes</div>
+            <div class="timeline__desc">Compute, stockage, réseau. Beta privée avec 20 early adopters publics et privés.</div>
+          </div>
+          <div class="timeline__item anim anim-4">
+            <div class="timeline__dot timeline__dot--future"></div>
+            <div class="timeline__date">T1 2027</div>
+            <div class="timeline__title">Série A — 60 M€</div>
+            <div class="timeline__desc">Ouverture DC Rennes + Paris. Lancement Kubernetes managé. ISO 27001.</div>
+          </div>
+          <div class="timeline__item anim anim-5">
+            <div class="timeline__dot timeline__dot--future"></div>
+            <div class="timeline__date">T3 2027</div>
+            <div class="timeline__title">Qualification HDS</div>
+            <div class="timeline__desc">Accès au marché santé. Premiers contrats hospitaliers via Réseau de Santé.</div>
+          </div>
+          <div class="timeline__item anim anim-6">
+            <div class="timeline__dot timeline__dot--future"></div>
+            <div class="timeline__date">T4 2028</div>
+            <div class="timeline__title">SecNumCloud 3.2</div>
+            <div class="timeline__desc">Qualification ANSSI. Accès aux données sensibles de l'État. Game changer.</div>
+          </div>
+          <div class="timeline__item anim anim-7">
+            <div class="timeline__dot timeline__dot--future"></div>
+            <div class="timeline__date">2029</div>
+            <div class="timeline__title">Série B — 150 M€ · Scale</div>
+            <div class="timeline__desc">7 datacenters, 1 000 collaborateurs, lancement offre PME grand public.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sora-placeholder sora-placeholder--video anim anim-8">
+          Sora : Time-lapse de construction d'un datacenter, serveurs qui s'allument progressivement, lumières bleues
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 14 — GOUVERNANCE ============================== -->
+  <div class="slide" data-slide="13">
+    <div class="slide__bg"><div class="slide__bg-grid"></div></div>
+    <div class="slide__content">
+      <div class="slide-label">Gouvernance</div>
+      <h2 class="slide-subtitle">Une structure qui garantit la souveraineté.</h2>
+      <p class="slide-text">La gouvernance de Cloud François est conçue pour être structurellement immunisée contre toute prise de contrôle extra-européenne.</p>
+      <div class="card-grid anim anim-3" style="margin-top:32px; grid-template-columns: repeat(3, 1fr);">
+        <div class="card anim anim-3">
+          <div class="card__icon card__icon--blue">⚖️</div>
+          <h4>SAS de droit français</h4>
+          <p>Siège social à Nantes. Statuts intégrant une clause anti-prise de contrôle extra-UE.</p>
+        </div>
+        <div class="card anim anim-4">
+          <div class="card__icon card__icon--purple">🗳️</div>
+          <h4>Golden share publique</h4>
+          <p>La Banque des Territoires dispose d'un droit de veto sur toute cession à une entité non-européenne.</p>
+        </div>
+        <div class="card anim anim-5">
+          <div class="card__icon card__icon--green">👥</div>
+          <h4>Comité de souveraineté</h4>
+          <p>Comité indépendant (ANSSI, DINUM, juristes) vérifiant en continu la conformité souveraine.</p>
+        </div>
+      </div>
+      <div class="anim anim-6" style="margin-top:32px; padding:24px 28px; background:rgba(37,99,235,0.08); border:1px solid rgba(37,99,235,0.15); border-radius:14px;">
+        <p style="font-size:0.95rem; color:var(--gray-200); line-height:1.6;">
+          <strong style="color:var(--blue-light);">Répartition capitalistique cible :</strong>
+          Fondateurs & management 25% · Opérateur télécom 20% · Industriel cyber 20% · Bpifrance/CDC 20% · Salariés (BSPCE) 10% · Flottant futur 5%
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 15 — AVANTAGE COMPÉTITIF ============================== -->
+  <div class="slide" data-slide="14">
+    <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--br"></div></div>
+    <div class="slide__content">
+      <div class="slide-label">Avantage compétitif</div>
+      <h2 class="slide-subtitle">Ce qui nous distingue.</h2>
+      <div class="card-grid anim anim-3" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card anim anim-3">
+          <div class="card__icon card__icon--blue">🏠</div>
+          <h4>vs. Hyperscalers US</h4>
+          <p>Immunité Cloud Act. SecNumCloud. Droit français. Pas de licence US dans la stack. Véritable souveraineté, pas du "cloud washing".</p>
+        </div>
+        <div class="card anim anim-4">
+          <div class="card__icon card__icon--purple">🆚</div>
+          <h4>vs. Bleu / S3NS</h4>
+          <p>Pas de dépendance technologique à Microsoft ou Google. Stack open source. Pas de redevance extraterritoriale.</p>
+        </div>
+        <div class="card anim anim-5">
+          <div class="card__icon card__icon--cyan">🆚</div>
+          <h4>vs. OVHcloud</h4>
+          <p>SecNumCloud sur toute la gamme (pas seulement un sous-ensemble). Positionnement souveraineté first. DX premium.</p>
+        </div>
+        <div class="card anim anim-5">
+          <div class="card__icon card__icon--amber">📢</div>
+          <h4>Nom mémorable</h4>
+          <p>« Cloud François » : un nom qui désacralise un concept nébuleux pour 95% des décideurs. Viralité naturelle.</p>
+        </div>
+        <div class="card anim anim-6">
+          <div class="card__icon card__icon--green">🌱</div>
+          <h4>Green by design</h4>
+          <p>100% énergie renouvelable, refroidissement free-cooling (climat atlantique nantais), PUE < 1.2.</p>
+        </div>
+        <div class="card anim anim-7">
+          <div class="card__icon card__icon--red">❤️</div>
+          <h4>DX à la française</h4>
+          <p>Console, CLI, API, Terraform, documentation — tout en français et en anglais. Support humain basé en France.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 16 — L'ASK ============================== -->
+  <div class="slide" data-slide="15">
+    <div class="slide__bg"><div class="slide__bg-glow slide__bg-glow--tl"></div><div class="slide__bg-glow slide__bg-glow--br"></div><div class="slide__bg-grid"></div></div>
+    <div class="slide__content center">
+      <div class="slide-label">La Demande</div>
+      <h2 class="slide-title">Tour d'amorçage : <span class="gradient-text">15 M€</span></h2>
+      <p class="slide-text" style="text-align:center; max-width:600px;">
+        Pour financer le premier datacenter Nantes, recruter l'équipe fondatrice (80 personnes),
+        développer le MVP, et lancer le processus de qualification SecNumCloud.
+      </p>
+      <div class="stat-row anim anim-4" style="max-width:800px; margin:40px auto 0;">
+        <div class="stat-box anim anim-4">
+          <span class="stat-box__number">6 M€</span>
+          <span class="stat-box__label">Infrastructure<br>(DC Nantes Tier III)</span>
+        </div>
+        <div class="stat-box anim anim-5">
+          <span class="stat-box__number">5 M€</span>
+          <span class="stat-box__label">R&D Plateforme<br>(18 mois)</span>
+        </div>
+        <div class="stat-box anim anim-6">
+          <span class="stat-box__number">2 M€</span>
+          <span class="stat-box__label">Cybersécurité<br>& certifications</span>
+        </div>
+        <div class="stat-box anim anim-7">
+          <span class="stat-box__number">2 M€</span>
+          <span class="stat-box__label">Recrutement<br>& opérations</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== SLIDE 17 — CLOSING ============================== -->
+  <div class="slide" data-slide="16">
+    <div class="slide__bg"><div class="slide__bg-glow slide__bg-glow--tl"></div><div class="slide__bg-glow slide__bg-glow--br"></div><div class="slide__bg-grid"></div></div>
+    <div class="slide__content cta-slide">
+      <div class="slide-label">Merci</div>
+      <h2 class="slide-title">Construisons le cloud<br>qui parle <span class="gradient-text">français.</span></h2>
+      <p class="slide-text" style="text-align:center; max-width:550px; margin-bottom:8px;">
+        Un projet souverain, nantais, ambitieux.<br>
+        Prêt à être porté par ceux qui croient qu'un numérique français est possible.
+      </p>
+      <a href="mailto:contact@cloudfrancois.fr" class="cta-btn cta-btn--primary anim anim-4">
+        contact@cloudfrancois.fr
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="anim anim-5" style="margin-top:48px;">
+        <div class="sora-placeholder" style="max-width:500px; margin:0 auto; min-height:60px; font-size:0.75rem;">
+          Sora : Panoramique de Nantes au lever du soleil, transition fondu vers logo Cloud François
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   SLIDE ENGINE
+   ============================================================ */
+
+const deck = {
+  current: 0,
+  total: 0,
+  slides: [],
+  progress: null,
+  counter: null,
+
+  init() {
+    this.slides = document.querySelectorAll('.slide');
+    this.total = this.slides.length;
+    this.progress = document.getElementById('progress');
+    this.counter = document.getElementById('counter');
+
+    this.updateUI();
+    this.bindKeys();
+    this.bindButtons();
+    this.bindTouch();
+    this.hideHint();
+  },
+
+  go(index) {
+    if (index < 0 || index >= this.total || index === this.current) return;
+
+    const prev = this.slides[this.current];
+    const next = this.slides[index];
+
+    prev.classList.remove('active');
+    prev.classList.toggle('prev', index > this.current);
+
+    this.current = index;
+    next.classList.remove('prev');
+    next.classList.add('active');
+
+    this.updateUI();
+    this.animateCharts(index);
+  },
+
+  next() { this.go(this.current + 1); },
+  prev() { this.go(this.current - 1); },
+
+  updateUI() {
+    const pct = ((this.current + 1) / this.total) * 100;
+    this.progress.style.width = pct + '%';
+    this.counter.textContent =
+      String(this.current + 1).padStart(2, '0') + ' / ' + String(this.total).padStart(2, '0');
+  },
+
+  bindKeys() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        this.next();
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        this.prev();
+      }
+      if (e.key === 'Home') { e.preventDefault(); this.go(0); }
+      if (e.key === 'End') { e.preventDefault(); this.go(this.total - 1); }
+      if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+    });
+  },
+
+  bindButtons() {
+    document.getElementById('btn-next').addEventListener('click', () => this.next());
+    document.getElementById('btn-prev').addEventListener('click', () => this.prev());
+  },
+
+  bindTouch() {
+    let startX = 0;
+    document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 60) {
+        diff > 0 ? this.next() : this.prev();
+      }
+    }, { passive: true });
+  },
+
+  hideHint() {
+    const hint = document.getElementById('hint');
+    setTimeout(() => { hint.style.opacity = '0'; hint.style.transition = 'opacity 1s'; }, 5000);
+  },
+
+  animateCharts(index) {
+    // Bar chart on slide 8
+    if (index === 8) {
+      setTimeout(() => {
+        document.querySelectorAll('#market-chart .bar-chart__bar').forEach(bar => {
+          bar.style.height = bar.dataset.height + 'px';
+        });
+      }, 400);
+    }
+
+    // Donut chart on slide 10
+    if (index === 10) {
+      setTimeout(() => {
+        const segments = document.querySelectorAll('#donut-chart .donut__segment');
+        segments.forEach(seg => {
+          const target = parseFloat(seg.dataset.target);
+          const offset = parseFloat(seg.dataset.offset || 0);
+          seg.style.strokeDasharray = target + ' ' + (440 - target);
+          seg.style.strokeDashoffset = -offset;
+        });
+      }, 600);
+    }
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => deck.init());
+</script>
+
+</body>
+</html>
