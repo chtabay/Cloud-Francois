@@ -1,6 +1,6 @@
 # Cloud François
 
-> Le Cloud qui parle français.
+> Le Cloud Souverain.
 
 Site vitrine du projet **Cloud François**, un cloud souverain français. Hébergé via GitHub Pages.
 
