@@ -73,6 +73,17 @@ html, body {
   overflow: hidden;
 }
 
+.slide--dense {
+  align-items: flex-start;
+  overflow-y: auto;
+  padding-top: 80px;
+  padding-bottom: 40px;
+}
+
+.slide--dense::-webkit-scrollbar { width: 4px; }
+.slide--dense::-webkit-scrollbar-track { background: transparent; }
+.slide--dense::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
 .slide.active {
   opacity: 1;
   pointer-events: auto;
@@ -823,7 +834,7 @@ html, body {
   <!-- ============================== SLIDE 1 — COVER ============================== -->
   <div class="slide active" data-slide="0">
     <div class="slide__bg-photo">
-      <img src="../assets/Asset 1 - Cover.webp" alt="Vue aérienne de Nantes au crépuscule">
+      <img src="../assets/Asset%201%20-%20Cover.webp" alt="Vue aérienne de Nantes au crépuscule">
     </div>
     <div class="slide__bg"><div class="slide__bg-grid"></div></div>
     <div class="slide__content center">
@@ -884,7 +895,7 @@ html, body {
         </blockquote>
       </div>
       <div>
-        <img src="../assets/Asset 2 - Le Problème.png" alt="Flux de données et souveraineté" class="slide-img anim anim-5">
+        <img src="../assets/Asset%202%20-%20Le%20Probl%C3%A8me.png" alt="Flux de données et souveraineté" class="slide-img anim anim-5">
       </div>
     </div>
   </div>
@@ -911,44 +922,44 @@ html, body {
   </div>
 
   <!-- ============================== SLIDE 5 — POURQUOI NANTES ============================== -->
-  <div class="slide" data-slide="4">
+  <div class="slide slide--dense" data-slide="4">
     <div class="slide__bg"><div class="slide__bg-grid"></div></div>
     <div class="slide__content split--60-40">
       <div>
         <div class="slide-label">Pourquoi Nantes</div>
         <h2 class="slide-subtitle">L'écosystème idéal pour un cloud souverain.</h2>
         <p class="slide-text">Nantes réunit un tissu tech dynamique, une proximité avec le hub cyber de Rennes, un accès aux câbles sous-marins atlantiques, et un soutien politique régional fort.</p>
-        <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
-          <div class="card anim anim-3">
-            <div class="card__icon card__icon--blue">🏢</div>
+        <div class="card-grid" style="grid-template-columns: 1fr 1fr; gap:14px; margin-top:20px;">
+          <div class="card anim anim-3" style="padding:20px;">
+            <div class="card__icon card__icon--blue" style="width:36px;height:36px;font-size:1.1rem;margin-bottom:10px;">🏢</div>
             <h4>Clever Cloud</h4>
             <p>PaaS souverain basé à Nantes. Preuve qu'un acteur cloud de référence peut émerger ici.</p>
           </div>
-          <div class="card anim anim-4">
-            <div class="card__icon card__icon--purple">🛡️</div>
+          <div class="card anim anim-4" style="padding:20px;">
+            <div class="card__icon card__icon--purple" style="width:36px;height:36px;font-size:1.1rem;margin-bottom:10px;">🛡️</div>
             <h4>Pôle Cyber Rennes</h4>
             <p>DGA-MI, Pôle d'Excellence Cyber à 1h. Vivier de compétences cybersécurité unique.</p>
           </div>
-          <div class="card anim anim-5">
-            <div class="card__icon card__icon--cyan">🌊</div>
+          <div class="card anim anim-5" style="padding:20px;">
+            <div class="card__icon card__icon--cyan" style="width:36px;height:36px;font-size:1.1rem;margin-bottom:10px;">🌊</div>
             <h4>Câbles sous-marins</h4>
             <p>Accès aux landing points atlantiques. Connectivité internationale directe.</p>
           </div>
-          <div class="card anim anim-6">
-            <div class="card__icon card__icon--green">🎓</div>
+          <div class="card anim anim-6" style="padding:20px;">
+            <div class="card__icon card__icon--green" style="width:36px;height:36px;font-size:1.1rem;margin-bottom:10px;">🎓</div>
             <h4>Talent pool</h4>
             <p>Centrale Nantes, Polytech, IMT Atlantique, Epitech. 8 000 diplômés tech/an.</p>
           </div>
         </div>
       </div>
-      <div>
-        <img src="../assets/Asset 3 - pourquoi Nantes.png" alt="Écosystème tech nantais" class="slide-img anim anim-7">
+      <div style="align-self:center;">
+        <img src="../assets/Asset%203%20-%20pourquoi%20Nantes.png" alt="Écosystème tech nantais" class="slide-img anim anim-7" style="max-height:60vh;object-fit:cover;">
       </div>
     </div>
   </div>
 
   <!-- ============================== SLIDE 6 — SOUTIENS POLITIQUES ============================== -->
-  <div class="slide" data-slide="5">
+  <div class="slide slide--dense" data-slide="5">
     <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--center"></div></div>
     <div class="slide__content">
       <div class="slide-label">Soutiens institutionnels</div>
@@ -992,7 +1003,7 @@ html, body {
   </div>
 
   <!-- ============================== SLIDE 7 — LE CONSORTIUM ============================== -->
-  <div class="slide" data-slide="6">
+  <div class="slide slide--dense" data-slide="6">
     <div class="slide__bg"><div class="slide__bg-grid"></div></div>
     <div class="slide__content">
       <div class="slide-label">Le Consortium</div>
@@ -1316,7 +1327,7 @@ html, body {
   </div>
 
   <!-- ============================== SLIDE 13 — CERTIFICATIONS ============================== -->
-  <div class="slide" data-slide="12">
+  <div class="slide slide--dense" data-slide="12">
     <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--tl"></div></div>
     <div class="slide__content split--60-40">
       <div>
@@ -1362,7 +1373,7 @@ html, body {
         </div>
       </div>
       <div>
-        <img src="../assets/Asset 4 - Feuille de route.png" alt="Datacenter moderne" class="slide-img anim anim-8">
+        <img src="../assets/Asset%204%20-%20Feuille%20de%20route.png" alt="Datacenter moderne" class="slide-img anim anim-8">
       </div>
     </div>
   </div>
@@ -1401,7 +1412,7 @@ html, body {
   </div>
 
   <!-- ============================== SLIDE 15 — AVANTAGE COMPÉTITIF ============================== -->
-  <div class="slide" data-slide="14">
+  <div class="slide slide--dense" data-slide="14">
     <div class="slide__bg"><div class="slide__bg-grid"></div><div class="slide__bg-glow slide__bg-glow--br"></div></div>
     <div class="slide__content">
       <div class="slide-label">Avantage compétitif</div>
@@ -1487,7 +1498,7 @@ html, body {
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <div class="anim anim-5" style="margin-top:48px;">
-        <img src="../assets/Asset 5 - Closing.png" alt="Panoramique de Nantes" class="slide-img slide-img--closing">
+        <img src="../assets/Asset%205%20-%20Closing.png" alt="Panoramique de Nantes" class="slide-img slide-img--closing">
       </div>
     </div>
   </div>
